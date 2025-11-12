@@ -1,0 +1,70 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Action Plan</title>
+            <style>
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f4f7f6;
+                    color: #333;
+                    line-height: 1.6;
+                    display: block;  /* Change from flex to block */
+                    height: 100vh;
+                    box-sizing: border-box;
+                    overflow: hidden;
+                }
+                .container {
+                    width: 80%;
+                    max-width: 900px;
+                    max-height: 90%;
+                    background-color: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                    padding: 20px;
+                    text-align: left;  /* Align text to the left */
+                    overflow-y: auto; /* Enable vertical scrolling if content is too long */
+                    margin: 0 auto;  /* Center container horizontally */
+                }
+                h1 {
+                    color: #2c3e50;
+                    font-size: 2em;
+                    margin-bottom: 20px;
+                    text-align: center;  /* Keep heading centered */
+                }
+                .content-box {
+                    background-color: #ecf0f1;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                    font-size: 1.1em;
+                    color: #2c3e50;
+                    white-space: pre-wrap; /* Preserve formatting */
+                    text-align: left;  /* Ensure content is aligned to the left */
+                }
+                .footer {
+                    margin-top: 20px;
+                    font-size: 0.9em;
+                    color: #7f8c8d;
+                    text-align: center; /* Footer remains centered */
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Action Plan</h1>
+                <div class="content-box">
+                    
+1) Time window: No specific timeframe was provided, so assume analysis for the last 7 full days, from 2025-11-06 00:00:00 to 2025-11-12 23:59:59 (dates interpreted in the %Y-%m-%d %H:%M:%S format). 2) activity database (Phone): Query activity events in this window and use database aggregation functions to: a) compute total duration and percentage for each activity type (stationary, walking, running, cycling, automotive); b) derive total ‘active time’ = walking+running+cycling; c) detect activity bouts (contiguous windows of walking/running >= 5 minutes), longest bout, and count per day; d) compute hourly distribution of active vs stationary time to find most/least active hours; e) compute daily summaries to identify the most and least active day. 3) garmin steps database (Garmin Smartwatch): Retrieve step counts in the same window (note: using Garmin to get step count data; this may overlap with phone steps, but we will prefer Garmin). Aggregate via database functions to get: a) total and average steps per day; b) max/min steps day; c) steps-by-hour histogram to align with activity patterns; d) streaks of days above a threshold (e.g., 8000 steps). If Garmin data are missing for any periods, fall back to the phone steps database (Phone) to compute the same metrics and label those portions as phone-derived. 4) garmin hr database (Garmin Smartwatch): Pull 30-second heart rate samples in the window and summarize via database functions: a) overall resting HR estimate (e.g., 5th percentile) and peak HR; b) join with activity segments from the activity database to compute average HR during stationary vs during walking/running; c) report variability across days to characterize intensity of activity. 5) (Optional, only if additional context is desired) location database (Phone): Without reverse geocoding, cluster GPS points to estimate time at primary locations; compute radius of gyration and time-at-home vs away. Only call the address resolver for the top 1–2 clusters if we need to show an address to the user. 6) Synthesis: Combine outputs to answer “How is my activity like?” by producing a concise summary: percent of time active vs stationary, typical active hours, average/total steps (Garmin), most/least active day, longest walking/run bout, and HR context during activity. Clearly note data sources (activity from Phone sensors; steps and HR from Garmin) and the overlap caveat with phone steps. 7) If the user specifies a different timeframe (in %Y-%m-%d %H:%M:%S), rerun the same steps for that interval.
+                </div>
+                <div class="footer">
+                    <p>Presented by GLOSS Sensemaking System</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    

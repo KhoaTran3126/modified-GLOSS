@@ -1,0 +1,7 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - 00_load_model.ipynb
+      - 01_calculate_features.ipynb
+      - 02_preprocess.ipynb
