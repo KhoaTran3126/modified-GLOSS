@@ -37,21 +37,19 @@ logger.addHandler(console_handler)
 
 
 async def coding_agent(user_query, system_prompt) -> TaskResult:
-    from autogen_ext.models import AzureOpenAIChatCompletionClient
+    from autogen_ext.models.openai import AzureOpenAIChatCompletionClient
     from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
     # Create the token provider
     client = get_llm_chat_openai()
 
-    # Add path to your repo here
-    async with DockerCommandLineCodeExecutor(work_dir="path/to/repo/here",
+    # ADD YOUR GLOSS dir path here!!!
+    async with DockerCommandLineCodeExecutor(work_dir="/Users/khoatran3126/Documents/GLOSS",
                                              image=DOCKER_NAME, auto_remove=False,
                                              stop_container=False) as code_executor:
         code_executor_agent = CodeExecutorAgent("code_executor", code_executor=code_executor)
 
-        coding_assistant_agent = AssistantAgent(
-            "coding_assistant", model_client=client, system_message=system_prompt
-        )
+        coding_assistant_agent = AssistantAgent("coding_assistant", model_client=client, system_message=system_prompt)
         #coding_assistant_agent = CodingAssistantAgent(
         #    "coding_assistant", model_client=client, system_message=system_prompt
         #)
@@ -61,7 +59,7 @@ async def coding_agent(user_query, system_prompt) -> TaskResult:
         # Run task and store result in a variable
         result = await group_chat.run(
             task=user_query,
-            termination_condition=None #StopMessageTermination(),
+            #termination_condition=None #StopMessageTermination(),
         )
 
     return result  # Return result of async call
